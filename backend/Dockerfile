@@ -1,11 +1,9 @@
-FROM node:alpine
+FROM node:15
 
-WORKDIR /opt/myapp
+WORKDIR /app
 
-COPY ./package.json ./
+COPY . .
 
-RUN yarn install
+RUN npm install
 
-COPY ./ ./
-
-CMD [ "node", "index.js" ]
+CMD ["npm", "start"]
