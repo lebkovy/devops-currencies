@@ -4,6 +4,8 @@ services:
   server:
     build: .
     image: lebkovy/backend_server
+    volumes:
+      - ./:/app
     ports:
       - '5000:5000'
   db:
