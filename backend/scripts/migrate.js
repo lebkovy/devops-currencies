@@ -1,13 +1,15 @@
 const db = require('../db')
+const tableName = 'operations';
 
 ;(async () => {
   try {
-    await db.schema.dropTableIfExists('users')
-    await db.schema.withSchema('public').createTable('users', (table) => {
+    await db.schema.dropTableIfExists(tableName)
+    await db.schema.withSchema('public').createTable(tableName, (table) => {
       table.increments()
-      table.string('name')
+      table.integer('value')
+      table.string('currency')
     })
-    console.log('Created users table!')
+    console.log(`Created ${tableName} table!`)
     process.exit(0)
   } catch (err) {
     console.log(err)

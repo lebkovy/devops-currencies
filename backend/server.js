@@ -19,33 +19,40 @@ redisClient.on('connect', () => {
   console.log('Connected to the Redis server');
 })
 
+const tableName = 'operations';
+
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.get('/', (req, res) => res.send('Hello World!'))
-
-app.get('/users', async (req, res) => {
-  const users = await db.select().from('users')
-  res.json(users)
+app.get('/drop', async (req, res) => {
+  await db.schema.dropTableIfExists(tableName)
+  await db.schema.withSchema('public').createTable(tableName, (table) => {
+    table.increments()
+    table.float('value')
+    table.string('currency')
+  })
+  res.send();
 })
 
-app.post('/users', async (req, res) => {
-  await db('users').insert({ name: req.body.name });
-  const users = await db.select().from('users');
-  res.json(users)
+app.get(`/${tableName}`, async (req, res) => {
+  const operations = await db.select().from(tableName)
+  res.json(operations)
 })
 
-app.post('/users/delete', async (req, res) => {
-  await db('users').select().from('users').where({id: req.body.id}).del();
-  const users = await db.select().from('users')
-  res.json(users)
+app.post(`/${tableName}`, async (req, res) => {
+  const [userId] = await db(tableName).insert({ value: req.body.value, currency: req.body.currency }).returning('id');
+  res.json(userId);
 })
 
-app.put('/users/edit', async (req, res) => {
-  await db('users').from('users').where({id: req.body.id}).update({name: req.body.name});
-  const users = await db.select().from('users')
-  res.json(users)
+app.post(`/${tableName}/delete`, async (req, res) => {
+  await db(tableName).select().from(tableName).where({id: req.body.id}).del();
+  res.send();
+})
+
+app.put(`/${tableName}/edit`, async (req, res) => {
+  await db(tableName).from(tableName).where({id: req.body.operation.id}).update({value: req.body.operation.value, currency: req.body.operation.currency});
+  res.send();
 })
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`))
