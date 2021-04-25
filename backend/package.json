@@ -13,8 +13,7 @@
     "redis": "^3.0.2"
   },
   "scripts": {
-    "start": "nodemon server.js",
-    "migrate": "node scripts/migrate.js"
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "",

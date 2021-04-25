@@ -3,6 +3,7 @@ const tableName = 'operations';
 
 ;(async () => {
   try {
+    console.log('Setting up database...')
     await db.schema.dropTableIfExists(tableName)
     await db.schema.withSchema('public').createTable(tableName, (table) => {
       table.increments()

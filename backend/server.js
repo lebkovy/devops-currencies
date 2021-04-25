@@ -25,15 +25,15 @@ app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.get('/drop', async (req, res) => {
-  await db.schema.dropTableIfExists(tableName)
-  await db.schema.withSchema('public').createTable(tableName, (table) => {
-    table.increments()
-    table.float('value')
-    table.string('currency')
-  })
-  res.send();
-})
+// app.get('/drop', async (req, res) => {
+//   await db.schema.dropTableIfExists(tableName)
+//   await db.schema.withSchema('public').createTable(tableName, (table) => {
+//     table.increments()
+//     table.float('value')
+//     table.string('currency')
+//   })
+//   res.send();
+// })
 
 app.get(`/${tableName}`, async (req, res) => {
   const operations = await db.select().from(tableName)
