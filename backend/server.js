@@ -40,6 +40,10 @@ app.get(`/${tableName}`, async (req, res) => {
   res.json(operations)
 })
 
+app.get('/', async (req, res) => {
+  res.send("Hello World");
+})
+
 app.post(`/${tableName}`, async (req, res) => {
   const [userId] = await db(tableName).insert({ value: req.body.value, currency: req.body.currency }).returning('id');
   res.json(userId);

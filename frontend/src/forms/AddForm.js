@@ -11,7 +11,7 @@ const AddForm = (props) => {
 
     const addOperation = (event) => {
         if (value != null && currency != null) {
-            axios.post('http://localhost:5000/operations', {
+            axios.post('http://localhost:9090/api/operations', {
                 value: value,
                 currency: currency
             })

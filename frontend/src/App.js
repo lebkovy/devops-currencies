@@ -9,7 +9,7 @@ function App() {
     const [operations, setOperations] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/operations')
+        axios.get('http://localhost:9090/api/operations')
             .then(response => {
                 setOperations(response.data);
             })
