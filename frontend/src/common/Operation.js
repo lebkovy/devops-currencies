@@ -21,7 +21,7 @@ const Operation = (props) => {
     }
 
     const updateList = (operation) => {
-        props.setOperations([...props.operations.filter((op) => op.id != operation.id), operation]);
+        props.setOperations([...props.operations.filter((op) => op.id !== operation.id), operation]);
     }
 
     const getFlag = (curr) => {

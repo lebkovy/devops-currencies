@@ -2,12 +2,11 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "server.js",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "knex": "^0.21.18",
-    "morgan": "^1.10.0",
     "nodemon": "^2.0.7",
     "pg": "^8.5.1",
     "redis": "^3.0.2"

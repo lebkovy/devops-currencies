@@ -23,13 +23,23 @@ services:
       context: ./backend
     image: lebkovy/backend
     volumes:
-      - ./:/app
+      - ./backend:/opt/app
       - /opt/app/node_modules
     environment:
       POSTGRES_PASSWORD: '12345'
       POSTGRES_USER: 'docker'
+      CHOKIDAR_USEPOOLING: 'true'
     ports:
       - '5000:4000'
+
+  frontend:
+    build:
+      dockerfile: Dockerfile
+      context: ./frontend
+    volumes:
+      - ./frontend:/opt/app
+      - /opt/app/node_modules
+    tty: true
 
   nginx:
     restart: always
@@ -38,15 +48,6 @@ services:
       context: ./nginx
     ports:
       - '9090:80'
-
-  frontend:
-    restart: always
-    build:
-      dockerfile: Dockerfile
-      context: ./frontend
-    volumes:
-      - /opt/app/node_modules
-      - ./frontend:/opt/app
 
 volumes:
   data:
