@@ -25,7 +25,7 @@ const Operation = (props) => {
     }
 
     const getFlag = (curr) => {
-        switch (curr.toUpperCase()) {
+        switch (curr?.toUpperCase() ?? '') {
             case 'USD': return USD;
             case 'CHF': return CHF;
             case 'GBP': return GBP;
