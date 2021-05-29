@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backendlb-deployment
+  labels:
+    component: backend
+    app: app
+
+spec:
+  template:
+    metadata:
+      name: backendlb-pod
+      labels:
+        component: backend
+        app: app
+    spec:
+      containers:
+        - name: backendlb-container
+          image: lebkovy/backend
+  replicas: 3
+  selector:
+    matchLabels:
+      app: app
+      component: backend

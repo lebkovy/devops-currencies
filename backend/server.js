@@ -38,6 +38,10 @@ app.get(`/${TABLE_NAME}`, async (req, res) => {
   });
 })
 
+app.get(`/`, (req, res) => {
+  res.send('API works!');
+})
+
 app.get(`/clear`, (req, res) => {
   redisClient.flushdb()
   res.end();

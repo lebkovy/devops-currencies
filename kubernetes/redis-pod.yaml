@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis-pod
+  labels:
+    component: web
+
+spec:
+  containers:
+    - name: redis
+      image: redis:latest
+

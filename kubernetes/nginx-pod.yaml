@@ -12,7 +12,3 @@ spec:
       image: nginx:alpine
       ports:
         - containerPort: 80
-    - name: redis
-      image: redis:latest
-      ports:
-        - containerPort: 80
