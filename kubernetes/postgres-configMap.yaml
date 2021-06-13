@@ -7,3 +7,4 @@ data:
   PGDATABASE: appdb
   PGUSER: appuser
   PGHOST: postgres-clusterip
+  PGPORT: "5432"

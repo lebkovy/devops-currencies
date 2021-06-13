@@ -37,6 +37,11 @@ spec:
                 configMapKeyRef:
                   name: postgres-config
                   key: PGUSER
+            - name: PGHOST
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: PGHOST
       volumes:
         - name: postgresvolume
           persistentVolumeClaim:

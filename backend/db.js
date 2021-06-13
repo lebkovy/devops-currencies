@@ -1,11 +1,13 @@
 const knex = require('knex')
+const keys = require('./keys');
 
 module.exports = knex({
   client: 'postgres',
   connection: {
-    host: 'db',
-    user: 'docker',
-    password: '12345',
-    database: 'docker'
+    host: keys.pgHost,
+    user: keys.pgUser,
+    password: keys.pgPassword,
+    database: keys.pgDatabase,
+    port: keys.pgPort
   },
 })

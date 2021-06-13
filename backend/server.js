@@ -2,10 +2,14 @@ const express = require('express')
 const redis = require('redis')
 const cors = require('cors')
 const db = require('./db')
+const keys = require('./keys');
 
 const PORT = process.env.PORT || 5000
 const app = express()
-const redisClient = redis.createClient({host: "redis", port: 6379})
+const redisClient = redis.createClient({
+  host: keys.redisHost,
+  port: keys.redisPort,
+})
 const TABLE_NAME = 'operations';
 
 app.use(cors())
