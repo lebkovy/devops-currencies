@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: postgres-deployment
   labels:
-    app: postgres
+    app: app
     type: db
 
 spec:
@@ -11,7 +11,7 @@ spec:
     metadata:
       name: postgres-pod
       labels:
-        app: postgres
+        app: app
         type: db
     spec:
       containers:
@@ -25,7 +25,7 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: app-secret
+                  name: postgres-secret
                   key: PGPASSWORD
             - name: POSTGRES_DB
               valueFrom:
@@ -49,5 +49,5 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: app
       type: db

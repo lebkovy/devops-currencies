@@ -12,5 +12,5 @@ spec:
       nodePort: 30000
 
   selector:
-    component: frontend
+    type: frontend
     app: app

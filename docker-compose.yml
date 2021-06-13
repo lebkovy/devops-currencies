@@ -33,6 +33,7 @@ services:
       - '5000:4000'
 
   frontend:
+    restart: always
     build:
       dockerfile: Dockerfile
       context: ./frontend

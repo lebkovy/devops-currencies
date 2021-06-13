@@ -4,30 +4,33 @@ const cors = require('cors')
 const db = require('./db')
 const keys = require('./keys');
 
-const PORT = process.env.PORT || 5000
+// const PORT = process.env.PORT || 5000
+const PORT = 5000
 const app = express()
 const redisClient = redis.createClient({
-  host: keys.redisHost,
-  port: keys.redisPort,
+  // host: keys.redisHost,
+  // port: keys.redisPort,
+  host: "redis",
+  port: 6379,
+  retry_strategy: () => 1000
 })
 const TABLE_NAME = 'operations';
 
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}`))
+app.listen(PORT, async () => {
+  await db.schema.dropTableIfExists(TABLE_NAME)
+  await db.schema.withSchema('public').createTable(TABLE_NAME, (table) => {
+    table.increments()
+    table.float('value')
+    table.string('currency')
+  });
+  console.log(`Server listening on port ${PORT}`);
+})
 
 redisClient.on('connect', () => { console.log('Connected to the Redis server'); })
 
-// app.get('/drop', async (req, res) => {
-//   await db.schema.dropTableIfExists(TABLE_NAME)
-//   await db.schema.withSchema('public').createTable(TABLE_NAME, (table) => {
-//     table.increments()
-//     table.float('value')
-//     table.string('currency')
-//   })
-//   res.send();
-// })
 
 app.get(`/${TABLE_NAME}`, async (req, res) => {
   redisClient.get('cached_operations', async (err, result) => {

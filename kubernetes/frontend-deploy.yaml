@@ -1,23 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontendlb-deployment
+  name: frontend-deployment
   labels:
-    component: frontend
     app: app
+    type: frontend
 spec:
   template:
     metadata:
-      name: frontendlb-pod
+      name: frontend-pod
       labels:
-        component: frontend
         app: app
+        type: frontend
     spec:
       containers:
-        - name: frontendlb-container
+        - name: frontend-container
           image: lebkovy/frontend
+          stdin: true
   replicas: 3
   selector:
     matchLabels:
       app: app
-      component: frontend
+      type: frontend
