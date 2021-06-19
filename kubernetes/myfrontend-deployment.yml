@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+    name: myfrontend-deployment
+    labels:
+        app: my-app
+        component: frontend
+
+spec:
+    template:
+        metadata:
+            name: myfrontend-pod
+            labels:
+                app: my-app
+                component: frontend
+
+        spec:
+            containers:
+                - name: myfrontend-container
+                  image: lebkovy/myfrontend:latest
+                  stdin: true
+
+    replicas: 3
+    selector:
+        matchLabels:
+            app: my-app
+            component: frontend

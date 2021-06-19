@@ -1,0 +1,27 @@
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+kubectl apply -f pv-local.yml
+
+kubectl create -f myredis-service-clusterip.yml
+kubectl create -f myredis-deployment.yml
+
+kubectl apply -f mypostgres-pvc.yml
+kubectl apply -f mypostgres-clusterip.yml
+kubectl apply -f mypostgres-secret.yml
+kubectl apply -f mypostgres-config.yml
+kubectl apply -f mypostgres-deployment.yml
+
+kubectl create -f ingress-service.yml
+
+kubectl apply -f mybackendlb-clusterip.yaml
+kubectl apply -f mybackendlb-deployment.yaml
+
+kubectl apply -f myfrontend-clusterip.yml
+kubectl apply -f myfrontend-deployment.yml
+
+kubectl get deploy
+
+kubectl apply -f mybackendlb-node-port.yaml
+kubectl apply -f myfrontend-node-port.yml
+
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/cloud/deploy.yaml

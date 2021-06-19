@@ -13,7 +13,7 @@ const Operation = (props) => {
     const [selected, setSelection] = useState(null);
 
     const deleteOperation = (id) => {
-        axios.post('http://localhost:9090/api/operations/delete', {id: id})
+        axios.post('http://localhost/api/operations/delete', {id: id})
             .then(() => {
                 props.setOperations(props.operations.filter((op) => op.id !== id));
             })

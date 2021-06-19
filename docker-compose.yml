@@ -16,28 +16,30 @@ services:
     environment: 
       - ALLOW_EMPTY_PASSWORD=yes
 
-  backend:
+  backend_docker:
     restart: always
     build:
       dockerfile: Dockerfile
-      context: ./backend
-    image: lebkovy/backend
+      context: ./backend_docker
+    image: lebkovy/mybackend:docker
     volumes:
-      - ./backend:/opt/app
+      - ./backend_docker:/opt/app
       - /opt/app/node_modules
     environment:
       POSTGRES_PASSWORD: '12345'
       POSTGRES_USER: 'docker'
       CHOKIDAR_USEPOOLING: 'true'
     ports:
-      - '5000:4000'
+      - '5000:5000'
 
   frontend:
     restart: always
     build:
       dockerfile: Dockerfile
       context: ./frontend
-    image: lebkovy/frontend
+    ports:
+      - '3000:3000'
+    image: lebkovy/myfrontend:docker
     volumes:
       - ./frontend:/opt/app
       - /opt/app/node_modules

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 
 metadata:
-  name: frontend-nodeport
+  name: myfrontend-nodeport
 
 spec:
   type: NodePort
@@ -12,5 +12,5 @@ spec:
       nodePort: 30000
 
   selector:
-    type: frontend
-    app: app
+    app: my-app
+    component: frontend

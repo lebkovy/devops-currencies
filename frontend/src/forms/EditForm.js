@@ -11,7 +11,7 @@ const EditForm = (props) => {
 
     const editOperation = () => {
         const operation = {id: props.selected.id, value: +value, currency: currency};
-        axios.put('http://localhost:9090/api/operations/edit', {operation: operation})
+        axios.put('http://localhost/api/operations', {id: operation.id, value: operation.value, currency: operation.currency})
             .then(() => {
                 props.updateList(operation);
                 reset();

@@ -1,40 +1,17 @@
 const express = require('express')
 const redis = require('redis')
 const cors = require('cors')
-const keys = require('./keys');
 
-const PORT = 5000
+const PORT = process.env.PORT || 5000
 const app = express()
 const redisClient = redis.createClient({
-  host: keys.redisHost,
-  port: keys.redisPort,
-  retry_strategy: () => 1000
+  host: "redis",
+  port: 6379,
 });
 
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
-redisClient.on('connect', () => { console.log('Connected to the Redis server'); })
-
-const { Pool } = require('pg');
-
-const pgClient = new Pool({
-  user: keys.pgUser,
-  password: keys.pgPassword,
-  database: keys.pgDatabase,
-  host: keys.pgHost,
-  port: keys.pgPort
-});
-
-pgClient.on('error', () => {
-  console.log("Postgres not connected!");
-});
-
-pgClient.on('connect', () =>{
-  console.log("Connected to Postgres server!");
-});
-
 app.listen(PORT,  () => {
   pgClient.
   query('CREATE TABLE IF NOT EXISTS operations (id SERIAL PRIMARY KEY, value NUMERIC(15, 2), currency VARCHAR(15));').
@@ -46,11 +23,32 @@ app.listen(PORT,  () => {
   });
 })
 
-app.get("/api/check", (req, res) => {
-  res.send("[k8s] API WORKS! (/api)");
+redisClient.on('connect', () => { console.log('Connected to the Redis server'); })
+
+const { Pool } = require('pg');
+
+const pgClient = new Pool({
+  user: "docker",
+  password: "12345",
+  database: "docker",
+  host: "db",
+  port: "5432"
+
 });
 
-app.get("/api/operations", (req, res) => {
+pgClient.on('error', () => {
+  console.log("Postgres not connected!");
+});
+
+pgClient.on('connect', () =>{
+  console.log("Connected to Postgres server!");
+});
+
+app.get("/check", (req, res) => {
+  res.send("[Docker] API WORKS! (/api)");
+});
+
+app.get("/operations", (req, res) => {
   redisClient.get('cached_operations', (err, result) => {
     if (!result) {
       pgClient.
@@ -68,7 +66,7 @@ app.get("/api/operations", (req, res) => {
   });
 })
 
-app.post("/api/operations",  (req, res) => {
+app.post("/operations",  (req, res) => {
   const { value, currency } = req.body
   pgClient.
   query('INSERT INTO operations (value, currency) VALUES ($1, $2) RETURNING id;', [value, currency]).
@@ -82,7 +80,7 @@ app.post("/api/operations",  (req, res) => {
   });
 })
 
-app.post("/api/operations/delete",  (req, res) => {
+app.post("/operations/delete",  (req, res) => {
   const { id } = req.body;
   pgClient.
   query('DELETE FROM operations WHERE id = $1', [id]).
@@ -96,7 +94,7 @@ app.post("/api/operations/delete",  (req, res) => {
   });
 })
 
-app.put("/api/operations", async (req, res) => {
+app.put("/operations", async (req, res) => {
   const { id, value, currency } = req.body;
   pgClient.
   query('UPDATE operations SET value = $1, currency = $2 WHERE id = $3', [value, currency, id]).
