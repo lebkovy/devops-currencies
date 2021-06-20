@@ -1,0 +1,16 @@
+.grid-list {
+  padding: 48px 0 48px 0;
+}
+
+.sticky-top {
+  position: sticky;
+  top: 0;
+  background-color: #efefef;
+  z-index: 2;
+}
+
+.has-bg {
+  background-image: url('assets/hero.jpeg');
+  background-size: cover;
+  background-position: center 60%;
+}

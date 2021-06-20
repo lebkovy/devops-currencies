@@ -32,11 +32,11 @@ services:
     ports:
       - '5000:5000'
 
-  frontend:
+  frontend_docker:
     restart: always
     build:
       dockerfile: Dockerfile
-      context: ./frontend
+      context: ./frontend_docker
     ports:
       - '3000:3000'
     image: lebkovy/myfrontend:docker
